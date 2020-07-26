@@ -4,7 +4,7 @@ const port = 5000
 
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://cimyjh:<developer@mongocim>@dmc-init.5g37d.mongodb.net/<dbname>?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://cimyjh:developermongo@dmc-init.5g37d.mongodb.net/DMC-init?retryWrites=true&w=majority',
     {useNewUrlParser : true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false}
     ).then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err))
