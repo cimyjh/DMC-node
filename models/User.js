@@ -53,7 +53,6 @@ userSchema.pre('save', function(next){
     } else{
         next()
     }
-
 })
 
 //입력받은 plainPassword를 암호화 해서 이미 암호화된 비밀번호와 비교하는 메소드
@@ -74,6 +73,25 @@ userSchema.methods.generateToken = function(callback){
     user.save(function(err, user){
         if(err) return callback(err)
         callback(null, user)
+    })
+}
+
+
+userSchema.statics.findByToken = function(token, callback){
+
+    var user = this;
+
+
+
+    //토큰을 decode한다
+    jsw.verify(token, 'secretToken', function(err, decoded){
+        //유저 아이디를 이용해서 유저를 찾은 다음에
+        //클라이언트에서 가져온 token과 DB에 보관된 토큰이 일지하는지 확인
+        user.findOne({ "_id": decoded, "token": token }, function(err, user){
+            if (err) return callback(err);
+            callback(null, user)
+        })
+
     })
 }
 

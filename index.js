@@ -6,7 +6,8 @@ const port = 5000
 const bodyParser = require('body-parser');
 
 //entity 주입
-const { User } =require("./models/User");
+const { User } = require("./models/User");
+const { auth } = require('./middleware/auth');
 
 const mongoose = require('mongoose')
 
@@ -32,14 +33,16 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 //User.js에서 pre 전처리 작업 진행됨(save)
 //회원가입
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
 
     //Entity를 초기화
     const user = new User(req.body)
 
     //go와 비슷한 방식의 객체 및 파라미터 처리 err
+    //save는 mongoDB 메소드 인듯
     user.save((err, userInfo) => {
         if(err) return res.json({ success: false, err })
+
         return res.status(200).json({
             success: true
         })
@@ -47,7 +50,7 @@ app.post('/register', (req, res) => {
 })
 
 //로그인
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
 
     User.findOne({ email: req.body.email}, (err, user) => {
         if(!user){
@@ -72,6 +75,34 @@ app.post('/login', (req, res) => {
     })
 })
 
+app.get('/api/users/auth', auth, (req, res) => {
+
+    //여기까지 미들웨어를 통과해 왔다는 얘기는 auth통과
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    })
+
+})
+
+
+app.get('/api/users/logout', auth, (req, res) => {
+
+    User.findOneAndUpdate({ _id: req.user._id},
+        {token: ""},
+        (err, user) => {
+            if(err) return res.json({ success: false, err});
+            return res.status(200).send({
+                success: true
+            })
+        })
+})
 
 
 
