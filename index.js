@@ -15,7 +15,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-mongoose.connect('mongodb+srv://cimyjh:developermongo@dmc-init.5g37d.mongodb.net/DMC-init?retryWrites=true&w=majority',
+const config = require('./config/key')
+
+
+
+mongoose.connect(config.mongoURI,
     {useNewUrlParser : true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false}
     ).then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err))
