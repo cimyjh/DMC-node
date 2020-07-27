@@ -33,6 +33,10 @@ mongoose
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
+app.get("/api/hello", (req, res) => {
+  res.send("안녕하세요 !!!");
+});
+
 //User.js에서 pre 전처리 작업 진행됨(save)
 //회원가입
 app.post("/api/users/register", (req, res) => {
