@@ -1,5 +1,6 @@
 import { LOGIN_USER } from "../_actions/types";
 import { REGISTER_USER } from "../_actions/types";
+import { AUTH_USER } from "../_actions/types";
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -10,6 +11,10 @@ export default function (state = {}, action) {
     //action에서 받은 return 값이 REGISTER_USER일 경우  실행
     case REGISTER_USER:
       return { ...state, register: action.payload };
+      break;
+
+    case AUTH_USER:
+      return { ...state, userData: action.payload };
       break;
 
     default:
