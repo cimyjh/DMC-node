@@ -18,17 +18,17 @@ function App() {
           of them to render at a time
         */}
         <Switch>
-          <Router exact path="/">
+          <Route exact path="/">
             <LandingPage />
-          </Router>
+          </Route>
 
-          <Router exact path="/login">
+          <Route exact path="/login">
             <LoginPage />
-          </Router>
+          </Route>
 
-          <Router exact path="/register">
+          <Route exact path="/register">
             <RegisterPage />
-          </Router>
+          </Route>
         </Switch>
       </div>
     </Router>
